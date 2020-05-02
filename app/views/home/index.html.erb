@@ -9,6 +9,8 @@
                       <% if current_user %>
                         Signed in as <strong><%= current_user.name %></strong>!
                         <%= link_to "Sign out", signout_path, id: "sign_out" %>
+                        <br>
+                        <%= link_to "Create Ads", ads_new_url, id: "sign_out" %>
                       <% else %>
                         Please login and authenticate to continue.
                         <br><br>
