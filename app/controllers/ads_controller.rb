@@ -2,7 +2,7 @@ class AdsController < ApplicationController
   before_action :require_login
 
   def index
-    @ads = current_user.fb_ad_account.ads(fields: 'name').map(&:name)
+    @ads = current_user.ad_acct_query.ads(fields: 'name').map(&:name)
   end
 
   def create
@@ -31,7 +31,7 @@ class AdsController < ApplicationController
     #     page_id: current_user.pageID
     #   }
     # }
-    # created_ad_creative = current_user.fb_ad_account.adcreatives.create(ad_creative)
+    # created_ad_creative = current_user.ad_acct_query.adcreatives.create(ad_creative)
 
     campaign = {
       name: params[:campaign_name],
@@ -40,7 +40,7 @@ class AdsController < ApplicationController
       status: 'PAUSED',
     }
 
-    created_campaign = current_user.fb_ad_account.campaigns.create(campaign)
+    created_campaign = current_user.ad_acct_query.campaigns.create(campaign)
 
     targeting = {
       age_max: 45,
@@ -82,7 +82,7 @@ class AdsController < ApplicationController
       }
     end
 
-    created_ad_set = current_user.fb_ad_account.ad_sets.create(adset)
+    created_ad_set = current_user.ad_acct_query.ad_sets.create(adset)
 
     ad = {
       name: hardcoded[:adset_name],
@@ -106,7 +106,7 @@ class AdsController < ApplicationController
       ]
     end
 
-    created_ad = current_user.fb_ad_account.ads.create(ad)
+    created_ad = current_user.ad_acct_query.ads.create(ad)
 
     pp created_ad
     byebug

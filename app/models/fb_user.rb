@@ -1,8 +1,9 @@
 class FbUser < ApplicationRecord
 
-  # When you find a FbUser, call the fb_ad_account setter to instantiate an
+  # When you find a FbUser, call the ad_acct_query setter to instantiate an
   # ad_account.
-  after_find :fb_ad_account=
+  after_find :ad_acct_query=
+  after_find :fb_session=
 
   # A class method uses self to distinguish from instance methods.
   # It can only be called on the class, not an instance.
@@ -13,6 +14,8 @@ class FbUser < ApplicationRecord
       user.email = auth.info.email
       user.token = auth.credentials.token
 
+      # user_query = FacebookAds::User.get(id, @session)
+      # ad_account_info
       # Get the ad account info of our user
       ad_account_info = graph_get(fb_query('me/adaccounts?fields=account_id,account_status', user.token))
       # So we can save the ad account id
@@ -27,15 +30,20 @@ class FbUser < ApplicationRecord
   end
 
   # Setter
-  def fb_ad_account=
+  def ad_acct_query=
     # The app_secret and api version are already set in the initializer
     # We set up the session per user, that's the reason for this method.
-    session = FacebookAds::Session.new(access_token: self.token)
-    @fb_ad_account = FacebookAds::AdAccount.get(self.adaccount, 'name', session)
+    @ad_acct_query = FacebookAds::AdAccount.get(self.adaccount, 'name', @session)
   end
-
   # Getter
-  attr_reader :fb_ad_account
+  attr_reader :ad_acct_query
+
+  # Setter
+  def fb_session=
+    @fb_session = FacebookAds::Session.new(access_token: self.token)
+  end
+  # Getter
+  attr_reader :fb_session
 
   private
 
