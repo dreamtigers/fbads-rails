@@ -9,29 +9,29 @@ class AdsController < ApplicationController
     hardcoded = {
       adset_name: 'Test',
       objective: 'CONVERSIONS',
-      pixelID: 12345,
+      pixelID: 2754542204668852,
       status: 'ACTIVE'
     }
 
-    # ad_creative = {
-    #   name: "My Creative #{Random.rand(300)}",
-    #   object_story_spec: {
-    #     link_data: {
-    #       attachment_style: 'link',
-    #       call_to_action: {
-    #         type: 'SHOP_NOW'
-    #       },
-    #       description: params[:description],
-    #       link: current_user.url,
-    #       message: params[:message],
-    #       name: params[:headline],
-    #       # This is a URL of a picture to use in the post.
-    #       picture: image,
-    #     },
-    #     page_id: current_user.pageID
-    #   }
-    # }
-    # created_ad_creative = current_user.ad_acct_query.adcreatives.create(ad_creative)
+    ad_creative = {
+      name: "My Creative #{Random.rand(300)}",
+      object_story_spec: {
+        link_data: {
+          attachment_style: 'link',
+          call_to_action: {
+            type: 'SHOP_NOW'
+          },
+          description: params[:description],
+          link: current_user.url,
+          message: params[:message],
+          name: params[:headline],
+          # This is a URL of a picture to use in the post.
+          picture: 'https://bulma.io/images/placeholders/720x240.png',
+        },
+        page_id: current_user.pageID
+      }
+    }
+    created_ad_creative = current_user.ad_acct_query.adcreatives.create(ad_creative)
 
     campaign = {
       name: params[:campaign_name],
