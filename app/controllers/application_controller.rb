@@ -3,6 +3,8 @@ class ApplicationController < ActionController::Base
 
   def current_user
     @current_user ||= FbUser.find(session[:user_id]) if session[:user_id]
+    # Is equal to
+    # @current_user = @current_user || FbUser.find(session[:user_id]) if session[:user_id]
   end
   helper_method :current_user
 
