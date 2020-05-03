@@ -1,6 +1,6 @@
-<h1>New Fb Ad</h1>
+<h1>Ads Launcher Settings</h1>
 
-<%= form_with(model: @ad, local: true) do |form| %>
+<%= form_with(model: @ad, url: '/ads/create', method:'post', local: true) do |form| %>
   <%# <% if @ad.errors.any? %1> %>
   <%#   <div id="error_explanation"> %>
   <%#     <%1# <h2><%= pluralize(@ad.errors.count, "error") %2> prohibited this ad campaign from being saved:</h2> %1> %>
@@ -13,47 +13,44 @@
   <%#   </div> %>
   <%# <% end %1> %>
 
-  <%# Campaign name %>
   <div class="field">
     <%= form.label :campaign_name %>
-    <%= form.text_field :campaign_name %>
+    <%= form.text_field :campaign_name, placeholder: "Enter the Product name" %>
   </div>
 
-  <%# Interests %>
   <div class="field">
     <%= form.label :interests %>
-    <%= form.text_field :interests %>
+    <%= form.text_field :interests, placeholder: "Enter the Interests" %>
   </div>
 
-  <%# Gender %>
   <div class="field">
     <%= form.label :gender %>
-    <%= form.number_field :gender %>
+    <%= select_tag(:gender, options_for_select([['Both', 0], ['Male', 1], ['Female', 2]])) %>
   </div>
 
   <div class="field">
     <%= form.label :headline %>
-    <%= form.text_field :headline %>
+    <%= form.text_field :headline, placeholder: "Enter the Headline" %>
   </div>
 
   <div class="field">
     <%= form.label :ptext %>
-    <%= form.text_area :ptext %>
+    <%= form.text_field :ptext, placeholder: "Enter your Primary Text" %>
   </div>
 
   <div class="field">
     <%= form.label :description %>
-    <%= form.text_area :description %>
+    <%= form.text_field :description, placeholder: "Enter your Description" %>
   </div>
 
   <div class="field">
     <%= form.label :videoURL %>
-    <%= form.text_field :videoURL %>
+    <%= form.text_field :videoURL, placeholder: "Enter a downloadable link" %>
   </div>
 
   <div class="field">
     <%= form.label :countries %>
-    <%= form.text_field :countries %>
+    <%= select_tag :countries, options_for_select(@countries), {multiple: true, size: 10 } %>
   </div>
 
   <div class="actions">

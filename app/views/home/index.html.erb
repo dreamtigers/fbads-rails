@@ -8,12 +8,13 @@
                     <div id="user_nav">
                       <% if current_user %>
                         Signed in as <strong><%= current_user.name %></strong>!
-                        <%= link_to "Sign out", signout_path, id: "sign_out" %>
                         <br>
                         <%= link_to "Create Ads", ads_new_url, id: "sign_out" %>
+                        <br>
+                        <%= link_to "Sign out", signout_path, id: "sign_out" %>
                       <% else %>
                         Please login and authenticate to continue.
-                        <br><br>
+                        <br>
                         <%= link_to "Sign in with Facebook", "/auth/facebook", id: "sign_in", class: "btn btn-primary" %>
                       <% end %>
                     </div>

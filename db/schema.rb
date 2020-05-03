@@ -12,6 +12,9 @@
 
 ActiveRecord::Schema.define(version: 2020_05_01_170433) do
 
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
   create_table "fb_users", primary_key: "sno", force: :cascade do |t|
     t.string "uid"
     t.string "name"

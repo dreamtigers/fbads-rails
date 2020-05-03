@@ -18,7 +18,8 @@ class FbUser < ApplicationRecord
       # So we can save the ad account id
       user.adaccount = ad_account_info['data'][0]['id']
 
-      # user.pageID =
+      pages_info = graph_get(fb_query('me/accounts?limit=100', user.token))
+      user.pageID = pages_info['data'][0]['id']
       # user.url =
       user.active = 1
       user.save!

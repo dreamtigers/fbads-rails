@@ -22,8 +22,9 @@
   </thead>
 
   <tbody>
-    <%# <% @ads.each do |ad| %1> %>
-    <%#   <tr> %>
+    <% @ads.each do |ad| %>
+      <tr>
+        <td><%= ad.name %></td>
     <%#     <td><%= ad.sno %1></td> %>
     <%#     <td><%= ad.campaign_name %1></td> %>
     <%#     <td><%= ad.interests %1></td> %>
@@ -39,8 +40,8 @@
     <%#     <td><%= link_to 'Show', ad %1></td> %>
     <%#     <td><%= link_to 'Edit', edit_ad_path(ad) %1></td> %>
     <%#     <td><%= link_to 'Destroy', ad, method: :delete, data: { confirm: 'Are you sure?' } %1></td> %>
-    <%#   </tr> %>
-    <%# <% end %1> %>
+      </tr>
+    <% end %>
   </tbody>
 </table>
 
