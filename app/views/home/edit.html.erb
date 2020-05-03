@@ -1,0 +1,37 @@
+
+<h1>Editing Ad</h1>
+
+<%= form_with(model: @fb_user, url: setting_path, method: 'patch', local: true) do |form| %>
+  <% if @fb_user.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@fb_user.errors.count, "error") %> prohibited this ad from being saved:</h2>
+
+      <ul>
+        <% @fb_user.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :adaccount %>
+    <%= select_tag :adaccount, options_for_select(@ad_accounts) %>
+  </div>
+
+  <div class="field">
+    <%= form.label :pageID %>
+    <%= select_tag :pageID, options_for_select(@pages) %>
+  </div>
+
+  <div class="field">
+    <%= form.label :url %>
+    <%= form.text_field :url %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>
+
+<%= link_to 'Back', root_path %>

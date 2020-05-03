@@ -9,9 +9,11 @@
                       <% if current_user %>
                         Signed in as <strong><%= current_user.name %></strong>!
                         <br>
-                        <%= link_to "Create Ad", ads_new_url, id: "create_ad" %>
+                        <%= link_to "Create Ad", new_ad_path, id: "create_ad" %>
                         <br>
-                        <%= link_to "List ads", ads_index_url, id: "list_ads" %>
+                        <%= link_to "List ads", ads_path, id: "list_ads" %>
+                        <br>
+                        <%= link_to "Settings", edit_setting_path(current_user), id: "settings" %>
                         <br>
                         <%= link_to "Sign out", signout_path, id: "sign_out" %>
                       <% else %>

@@ -1,6 +1,6 @@
 <h1>Ads Launcher Settings</h1>
 
-<%= form_with(model: @ad, url: '/ads/create', method:'post', local: true) do |form| %>
+<%= form_with(model: @ad, url: '/ads', method:'post', local: true) do |form| %>
   <%# <% if @ad.errors.any? %1> %>
   <%#   <div id="error_explanation"> %>
   <%#     <%1# <h2><%= pluralize(@ad.errors.count, "error") %2> prohibited this ad campaign from being saved:</h2> %1> %>
@@ -58,4 +58,4 @@
   </div>
 <% end %>
 
-<%= link_to 'Back', ads_index_path %>
+<%= link_to 'Back', ads_path %>
