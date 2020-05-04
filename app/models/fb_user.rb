@@ -14,7 +14,7 @@ class FbUser < ApplicationRecord
 
       session = FacebookAds::Session.new(access_token: user.token)
       user_query = FacebookAds::User.get(user.uid, session)
-      user.adaccount = user_query.adaccounts.first.account_id
+      user.adaccount = user_query.adaccounts.first.id
       user.pageID = user_query.accounts.first.id
 
       # user.url =
