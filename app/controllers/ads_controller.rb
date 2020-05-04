@@ -91,8 +91,8 @@ class AdsController < ApplicationController
       creative: {
         # NOTE: Again, apparently the creative_id comes from `fb_ads`. But
         # since I don't have it, I can't do much about it. TODO
-        # creative_id: created_ad_creative.id
-        creative_id: 1
+        creative_id: created_ad_creative.id
+        # creative_id: 1
       }
     }
 
@@ -108,8 +108,8 @@ class AdsController < ApplicationController
 
     created_ad = current_user.ad_acct_query.ads.create(ad)
 
-    pp created_ad
-    byebug
+    # pp created_ad
+    redirect_to root_path
   end
 
   def new
