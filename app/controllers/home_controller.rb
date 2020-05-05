@@ -7,9 +7,8 @@ class HomeController < ApplicationController
 
   # GET /edit
   def edit
-    user_query = FacebookAds::User.get(@fb_user.uid, @fb_user.fb_session)
-    @ad_accounts = user_query.adaccounts(fields: 'name,account_id').map {|a| [a.name, a.account_id]}
-    @pages = user_query.accounts(fields: 'name,id').map {|p| [p.name, p.id]}
+    @ad_accounts = @fb_user.u_query.adaccounts(fields: 'name,account_id').map {|a| [a.name, a.account_id]}
+    @pages = @fb_user.u_query.accounts(fields: 'name,id').map {|p| [p.name, p.id]}
   end
 
   # PATCH/PUT /edit

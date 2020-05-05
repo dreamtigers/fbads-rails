@@ -1,8 +1,10 @@
 class AdsController < ApplicationController
   before_action :require_login
+  before_action :set_ad_acct_query, only: [:index, :create]
 
   def index
-    @ads = current_user.ad_acct_query.ads(fields: 'name').map(&:name)
+    fields = 'name'
+    @ads = @ad_acct_query.ads(fields: fields).all
   end
 
   def create
@@ -13,25 +15,25 @@ class AdsController < ApplicationController
       status: 'ACTIVE'
     }
 
-    ad_creative = {
-      name: "My Creative #{Random.rand(300)}",
-      object_story_spec: {
-        link_data: {
-          attachment_style: 'link',
-          call_to_action: {
-            type: 'SHOP_NOW'
-          },
-          description: params[:description],
-          link: current_user.url,
-          message: params[:message],
-          name: params[:headline],
-          # This is a URL of a picture to use in the post.
-          picture: 'https://bulma.io/images/placeholders/720x240.png',
-        },
-        page_id: current_user.pageID
-      }
-    }
-    created_ad_creative = current_user.ad_acct_query.adcreatives.create(ad_creative)
+    # ad_creative = {
+    #   name: "My Creative #{Random.rand(300)}",
+    #   object_story_spec: {
+    #     link_data: {
+    #       attachment_style: 'link',
+    #       call_to_action: {
+    #         type: 'SHOP_NOW'
+    #       },
+    #       description: params[:description],
+    #       link: current_user.url,
+    #       message: params[:message],
+    #       name: params[:headline],
+    #       # This is a URL of a picture to use in the post.
+    #       picture: 'https://bulma.io/images/placeholders/720x240.png',
+    #     },
+    #     page_id: current_user.pageID
+    #   }
+    # }
+    # created_ad_creative = @ad_acct_query.adcreatives.create(ad_creative)
 
     campaign = {
       name: params[:campaign_name],
@@ -40,7 +42,7 @@ class AdsController < ApplicationController
       status: 'PAUSED',
     }
 
-    created_campaign = current_user.ad_acct_query.campaigns.create(campaign)
+    created_campaign = @ad_acct_query.campaigns.create(campaign)
 
     targeting = {
       age_max: 45,
@@ -82,31 +84,31 @@ class AdsController < ApplicationController
       }
     end
 
-    created_ad_set = current_user.ad_acct_query.ad_sets.create(adset)
+    created_ad_set = @ad_acct_query.ad_sets.create(adset)
 
-    ad = {
-      name: hardcoded[:adset_name],
-      adset_id: created_ad_set.id,
-      status: hardcoded[:status],
-      creative: {
-        # NOTE: Again, apparently the creative_id comes from `fb_ads`. But
-        # since I don't have it, I can't do much about it. TODO
-        creative_id: created_ad_creative.id
-        # creative_id: 1
-      }
-    }
+    # ad = {
+    #   name: hardcoded[:adset_name],
+    #   adset_id: created_ad_set.id,
+    #   status: hardcoded[:status],
+    #   creative: {
+    #     # NOTE: Again, apparently the creative_id comes from `fb_ads`. But
+    #     # since I don't have it, I can't do much about it. TODO
+    #     creative_id: created_ad_creative.id
+    #     # creative_id: 1
+    #   }
+    # }
 
-    if hardcoded[:pixelID] != nil
-      ad[:tracking_specs] = [
-        # We're using the old hash notation because symbols can't use `.`.
-        {
-          "action.type" => 'offsite_conversion',
-          :fb_pixel => [hardcoded[:pixelID]]
-        }
-      ]
-    end
+    # if hardcoded[:pixelID] != nil
+    #   ad[:tracking_specs] = [
+    #     # We're using the old hash notation because symbols can't use `.`.
+    #     {
+    #       "action.type" => 'offsite_conversion',
+    #       :fb_pixel => [hardcoded[:pixelID]]
+    #     }
+    #   ]
+    # end
 
-    created_ad = current_user.ad_acct_query.ads.create(ad)
+    # created_ad = @ad_acct_query.ads.create(ad)
 
     # pp created_ad
     redirect_to root_path
@@ -132,4 +134,12 @@ class AdsController < ApplicationController
       ["United States", "US"], ["Vietnam",     "VN"]
     ]
   end
+
+  private
+
+  def set_ad_acct_query
+    # @ad_acct_query = FacebookAds::AdAccount.get(current_user.adaccount, 'name', current_user.fb_session)
+    @ad_acct_query = current_user.ad_acct_query
+  end
+
 end
