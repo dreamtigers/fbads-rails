@@ -2,7 +2,7 @@ class SessionsController < ApplicationController
   def create
     fb_user = FbUser.from_omniauth(request.env['omniauth.auth'])
     session[:user_id] = fb_user.id
-    redirect_to root_url
+    redirect_to edit_setting_path(fb_user)
   end
 
   def destroy
