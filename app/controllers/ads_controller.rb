@@ -33,7 +33,7 @@ class AdsController < ApplicationController
         page_id: current_user.pageID
       }
     }
-    # created_ad_creative = @ad_acct_query.adcreatives.create(ad_creative)
+    created_ad_creative = @ad_acct_query.adcreatives.create(ad_creative)
 
     campaign = {
       name: params[:campaign_name],
