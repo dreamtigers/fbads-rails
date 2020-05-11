@@ -15,22 +15,30 @@ class AdsController < ApplicationController
       status: 'ACTIVE'
     }
 
+    video = {
+      name: "Video File #{Random.rand(300)}",
+      file_url: params[:videoURL]
+    }
+
+    created_video = @ad_acct_query.advideos.create(video)
+
+
     ad_creative = {
       name: "My Creative #{Random.rand(300)}",
       object_story_spec: {
-        link_data: {
-          attachment_style: 'link',
-          # call_to_action: {
-          #   type: 'SHOP_NOW'
-          # },
-          description: params[:description],
-          link: current_user.url,
+        page_id: current_user.pageID,
+        video_data: {
+          video_id: created_video.id,
+          image_url: 'https://bulma.io/images/placeholders/720x240.png',
+          title: params[:headline],
           message: params[:message],
-          name: params[:headline],
-          # This is a URL of a picture to use in the post.
-          picture: 'https://bulma.io/images/placeholders/720x240.png',
-        },
-        page_id: current_user.pageID
+          call_to_action: {
+            type: 'SHOP_NOW',
+            value: {
+              link: current_user.url
+            }
+          }
+        }
       }
     }
     created_ad_creative = @ad_acct_query.adcreatives.create(ad_creative)
