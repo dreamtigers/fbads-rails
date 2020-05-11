@@ -1,0 +1,55 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Fb Ads</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>id</th>
+      <th>Campaign name</th>
+      <th>Campaign id</th>
+      <th>Ad set id</th>
+      <th>Interests</th>
+      <th>Gender</th>
+      <th>Ad Creative</th>
+      <th>Headline</th>
+      <th>Ptext</th>
+      <th>Video url</th>
+      <th>Thumbnail url</th>
+      <th>Countries</th>
+      <th>Results</th>
+      <th>Ad id</th>
+      <th>Start time</th>
+      <th colspan="1"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @fb_ads.each do |fb_ad| %>
+      <tr>
+        <td><%= fb_ad.id %></td>
+        <td><%= fb_ad.campaign_name %></td>
+        <td><%= fb_ad.campaign_id %></td>
+        <td><%= fb_ad.ad_set_id %></td>
+        <td><%= fb_ad.interests %></td>
+        <td><%= fb_ad.gender %></td>
+        <td><%= fb_ad.headline %></td>
+        <td><%= fb_ad.ptext %></td>
+        <td><%= fb_ad.video_url %></td>
+        <td><%= fb_ad.thumbnail_url %></td>
+        <td><%= fb_ad.countries %></td>
+        <td><%= fb_ad.results %></td>
+        <td><%= fb_ad.ad_id %></td>
+        <td><%= fb_ad.start_time %></td>
+        <td><%= link_to 'Run', fb_ad %></td>
+        <%# <td><%= link_to 'Show', fb_ad %1></td> %>
+        <%# <td><%= link_to 'Edit', edit_fb_ad_path(fb_ad) %1></td> %>
+        <%# <td><%= link_to 'Destroy', fb_ad, method: :delete, data: { confirm: 'Are you sure?' } %1></td> %>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Fb Ad', new_fb_ad_path %>

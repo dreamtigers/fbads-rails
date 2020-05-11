@@ -1,0 +1,62 @@
+<%= form_with(model: fb_ad, local: true) do |form| %>
+  <% if fb_ad.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(fb_ad.errors.count, "error") %> prohibited this fb_ad from being saved:</h2>
+
+      <ul>
+        <% fb_ad.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :campaign_name %>
+    <%= form.text_field :campaign_name, placeholder: "Enter the Product name" %>
+  </div>
+
+  <div class="field">
+    <%= form.label :interests %>
+    <%= form.text_field :interests, placeholder: "Enter the Interests" %>
+  </div>
+
+  <div class="field">
+    <%= form.label :gender %>
+    <%= select_tag(:gender, options_for_select([['Both', 0], ['Male', 1], ['Female', 2]])) %>
+  </div>
+
+  <div class="field">
+    <%= form.label :headline %>
+    <%= form.text_field :headline, placeholder: "Enter the Headline" %>
+  </div>
+
+  <div class="field">
+    <%= form.label :ptext %>
+    <%= form.text_field :ptext, placeholder: "Enter your Primary Text" %>
+  </div>
+
+  <div class="field">
+    <%= form.label :video_url %>
+    <%= form.text_field :video_url, placeholder: "Enter a downloadable link" %>
+  </div>
+
+  <div class="field">
+    <%= form.label :thumbnail_url %>
+    <%= form.text_field :thumbnail_url, placeholder: "Enter the thumbnail URL" %>
+  </div>
+
+  <div class="field">
+    <%= form.label :pixel_id %>
+    <%# <%= select_tag(:pixel_id, options_for_select(@pixels)) %1> %>
+  </div>
+
+  <div class="field">
+    <%= form.label :countries %>
+    <%= select_tag :countries, options_for_select(@countries), {multiple: true, size: 10 } %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

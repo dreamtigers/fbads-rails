@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  resources :ads, only: [:index, :create, :new]
+  resources :fb_ads, path: 'ads', only: [:index, :new, :create]
   resources :settings, only: [:edit, :update], controller: 'home'
 
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html

@@ -1,0 +1,29 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  uid: MyString
+  campaign_name: MyString
+  interests: MyString
+  gender: 1
+  headline: MyString
+  ptext: MyText
+  video_url: MyString
+  thumbnail_url: MyString
+  video_id: MyString
+  pixel_id: MyString
+  countries: MyString
+  start_time: 2020-05-11 14:57:25
+
+two:
+  uid: MyString
+  campaign_name: MyString
+  interests: MyString
+  gender: 1
+  headline: MyString
+  ptext: MyText
+  video_url: MyString
+  thumbnail_url: MyString
+  video_id: MyString
+  pixel_id: MyString
+  countries: MyString
+  start_time: 2020-05-11 14:57:25

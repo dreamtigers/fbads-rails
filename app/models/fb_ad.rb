@@ -1,0 +1,2 @@
+class FbAd < ApplicationRecord
+end

@@ -12,9 +12,9 @@
                         User token <strong><%= current_user.token %></strong>!
                         Ad Account id <strong><%= current_user.adaccount %></strong>!
                         <br>
-                        <%= link_to "Create Ad", new_ad_path, id: "create_ad" %>
+                        <%= link_to "Create Ad", new_fb_ad_path, id: "create_ad" %>
                         <br>
-                        <%= link_to "List ads", ads_path, id: "list_ads" %>
+                        <%= link_to "List ads", fb_ads_path, id: "list_ads" %>
                         <br>
                         <%= link_to "Settings", edit_setting_path(current_user), id: "settings" %>
                         <br>

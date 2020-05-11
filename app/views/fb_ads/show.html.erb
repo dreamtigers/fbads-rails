@@ -1,0 +1,64 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Uid:</strong>
+  <%= @fb_ad.uid %>
+</p>
+
+<p>
+  <strong>Campaign name:</strong>
+  <%= @fb_ad.campaign_name %>
+</p>
+
+<p>
+  <strong>Interests:</strong>
+  <%= @fb_ad.interests %>
+</p>
+
+<p>
+  <strong>Gender:</strong>
+  <%= @fb_ad.gender %>
+</p>
+
+<p>
+  <strong>Headline:</strong>
+  <%= @fb_ad.headline %>
+</p>
+
+<p>
+  <strong>Ptext:</strong>
+  <%= @fb_ad.ptext %>
+</p>
+
+<p>
+  <strong>Video url:</strong>
+  <%= @fb_ad.video_url %>
+</p>
+
+<p>
+  <strong>Thumbnail url:</strong>
+  <%= @fb_ad.thumbnail_url %>
+</p>
+
+<p>
+  <strong>Video:</strong>
+  <%= @fb_ad.video_id %>
+</p>
+
+<p>
+  <strong>Pixel:</strong>
+  <%= @fb_ad.pixel_id %>
+</p>
+
+<p>
+  <strong>Countries:</strong>
+  <%= @fb_ad.countries %>
+</p>
+
+<p>
+  <strong>Start time:</strong>
+  <%= @fb_ad.start_time %>
+</p>
+
+<%= link_to 'Edit', edit_fb_ad_path(@fb_ad) %> |
+<%= link_to 'Back', fb_ads_path %>

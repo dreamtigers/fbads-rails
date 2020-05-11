@@ -10,10 +10,33 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_05_01_170433) do
+ActiveRecord::Schema.define(version: 2020_05_11_185725) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "fb_ads", force: :cascade do |t|
+    t.string "uid"
+    t.string "campaign_name"
+    t.string "interests"
+    t.integer "gender"
+    t.string "headline"
+    t.text "ptext"
+    t.string "video_url"
+    t.string "thumbnail_url"
+    t.string "video_id"
+    t.string "pixel_id"
+    t.string "countries"
+    t.string "creative_id"
+    t.string "campaign_id"
+    t.string "ad_set_id"
+    t.string "ad_id"
+    t.integer "result"
+    t.string "result_status"
+    t.datetime "start_time"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
 
   create_table "fb_users", primary_key: "sno", force: :cascade do |t|
     t.string "uid"
