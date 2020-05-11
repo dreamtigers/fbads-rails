@@ -104,11 +104,7 @@ class AdsController < ApplicationController
       }
     end
 
-    begin
-      created_ad_set = @ad_acct_query.ad_sets.create(adset)
-    rescue
-      created_campaign = false
-    end
+    created_ad_set = @ad_acct_query.ad_sets.create(adset)
 
     ad = {
       name: hardcoded[:adset_name],
@@ -125,11 +121,7 @@ class AdsController < ApplicationController
         } ]
     end
 
-    begin
-      created_ad = @ad_acct_query.ads.create(ad)
-    rescue
-      created_campaign = false
-    end
+    created_ad = @ad_acct_query.ads.create(ad)
 
     # pp created_ad
     redirect_to root_path, notice: "Ad Campaign: #{!created_campaign.nil?}\nAd Set: #{!created_ad_set.nil?}\nAd: #{!created_ad.nil?}"
