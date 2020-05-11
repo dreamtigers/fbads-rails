@@ -20,9 +20,9 @@ class AdsController < ApplicationController
       object_story_spec: {
         link_data: {
           attachment_style: 'link',
-          call_to_action: {
-            type: 'SHOP_NOW'
-          },
+          # call_to_action: {
+          #   type: 'SHOP_NOW'
+          # },
           description: params[:description],
           link: current_user.url,
           message: params[:message],
