@@ -15,33 +15,45 @@ class AdsController < ApplicationController
       status: 'ACTIVE'
     }
 
-    video = {
-      name: "Video File #{Random.rand(300)}",
-      file_url: params[:videoURL]
-    }
+    # video = {
+    #   name: "Video File #{Random.rand(300)}",
+    #   file_url: params[:videoURL]
+    # }
 
-    created_video = @ad_acct_query.advideos.create(video)
-
+    # created_video = @ad_acct_query.advideos.create(video)
 
     ad_creative = {
       name: "My Creative #{Random.rand(300)}",
       object_story_spec: {
-        page_id: current_user.pageID,
-        video_data: {
-          video_id: created_video.id,
-          image_url: 'https://bulma.io/images/placeholders/720x240.png',
-          title: params[:headline],
+        link_data: {
+          picture: 'https://bulma.io/images/placeholders/720x240.png',
+          link: current_user.url,
           message: params[:message],
-          call_to_action: {
-            type: 'SHOP_NOW',
-            value: {
-              link: current_user.url
-            }
-          }
-        }
+        },
+        page_id: current_user.pageID
       }
     }
     created_ad_creative = @ad_acct_query.adcreatives.create(ad_creative)
+
+    # ad_creative = {
+    #   name: "My Creative #{Random.rand(300)}",
+    #   object_story_spec: {
+    #     page_id: current_user.pageID,
+    #     video_data: {
+    #       video_id: created_video.id,
+    #       image_url: 'https://bulma.io/images/placeholders/720x240.png',
+    #       title: params[:headline],
+    #       message: params[:message],
+    #       call_to_action: {
+    #         type: 'SHOP_NOW',
+    #         value: {
+    #           link: current_user.url
+    #         }
+    #       }
+    #     }
+    #   }
+    # }
+    # created_ad_creative = @ad_acct_query.adcreatives.create(ad_creative)
 
     campaign = {
       name: params[:campaign_name],
