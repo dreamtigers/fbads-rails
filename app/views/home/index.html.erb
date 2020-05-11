@@ -10,6 +10,7 @@
                       <% if current_user %>
                         Signed in as <strong><%= current_user.name %></strong>!
                         User token <strong><%= current_user.token %></strong>!
+                        Ad Account id <strong><%= current_user.adaccount %></strong>!
                         <br>
                         <%= link_to "Create Ad", new_ad_path, id: "create_ad" %>
                         <br>
