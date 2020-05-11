@@ -7,7 +7,7 @@ class HomeController < ApplicationController
 
   # GET /edit
   def edit
-    @ad_accounts = @fb_user.u_query.adaccounts(fields: 'name,account_id').map {|a| [a.name, a.account_id]}
+    @ad_accounts = @fb_user.u_query.adaccounts(fields: 'name,id').map {|a| [a.name, a.id]}
     @pages = @fb_user.u_query.accounts(fields: 'name,id').map {|p| [p.name, p.id]}
   end
 
