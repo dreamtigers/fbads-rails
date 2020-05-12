@@ -110,7 +110,7 @@ class FbAdsController < ApplicationController
     ad_creative = {
       name: "My Creative #{Random.rand(300)}",
       object_story_spec: {
-        page_id: current_user.pageID,
+        page_id: current_user.page_id,
         video_data: {
           video_id: @fb_ad.video_id,
           image_url: @fb_ad.thumbnail_url,
@@ -235,7 +235,7 @@ class FbAdsController < ApplicationController
 
     # Handy function
     def set_ad_acct_query
-      # @ad_acct_query = FacebookAds::AdAccount.get(current_user.adaccount, 'name', current_user.fb_session)
+      # @ad_acct_query = FacebookAds::AdAccount.get(current_user.ad_account_id, 'name', current_user.fb_session)
       @ad_acct_query = current_user.ad_acct_query
     end
 end

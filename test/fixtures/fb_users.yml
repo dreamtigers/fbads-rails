@@ -6,8 +6,8 @@ one:
   name: MyString
   email: MyString
   token: MyString
-  adaccount: MyString
-  pageID: MyString
+  ad_account_id: MyString
+  page_id: MyString
   url: MyString
   active: 1
 
@@ -17,7 +17,7 @@ two:
   name: MyString
   email: MyString
   token: MyString
-  adaccount: MyString
-  pageID: MyString
+  ad_account_id: MyString
+  page_id: MyString
   url: MyString
   active: 1

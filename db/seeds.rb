@@ -9,8 +9,8 @@ fb_users = [
     name: 'Tanner Blumer',
     email: 'blumer.tanner@gmail.com',
     token: 'EAALPZC2ZBEXa8BAMzpFI733iAQj5o55ZBWQZCKPbgNAwUZAjNsmUgllP6aXmA1Uv5zGnmiNEvoXFYzQzwcIi47NDJ4HHjTMbka1pQiHJofsWk4UtpPBZAGTbSNk9H1hLRW0ejsoD0yVL9QQCCsylGelcovnwtVG16ZAQCZAbSWjWUQZDZD',
-    adaccount: 'act_234778337767773',
-    pageID: '104275274587524',
+    ad_account_id: 'act_234778337767773',
+    page_id: '104275274587524',
     url: 'https://cablepal-shop.myshopify.com/',
     active: 1
   },
@@ -20,8 +20,8 @@ fb_users = [
     name: 'Alex Crumpton',
     email: 'alex.john.crumpton@outlook.com',
     token: 'EAALPZC2ZBEXa8BAD4ZCUN9MO3OLdBC4E3kLneLNBRyIa0WcGhqXLiT8JCIKgEJzrNlrAbvshRtLba8hFlTUTteEOdlpQ12Rg23bizHlAAxxMY77uZAy5tcxK7oq56XV8ZCDlpPZCuWeRsHrVVG6Og724eVLIBdI5YZAw2YPXVlJlgZDZD',
-    adaccount: 'act_2258257991064042',
-    pageID: '621941494910454',
+    ad_account_id: 'act_2258257991064042',
+    page_id: '621941494910454',
     url: 'ecomcashflowmachine.com',
     active: 1
   }

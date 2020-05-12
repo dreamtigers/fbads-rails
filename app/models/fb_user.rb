@@ -16,8 +16,8 @@ class FbUser < ApplicationRecord
       name: auth.info.name,
       email: auth.info.email,
       token: auth.credentials.token,
-      adaccount: user_query.adaccounts.first.id,
-      pageID: user_query.accounts.first.id
+      ad_account_id: user_query.adaccounts.first.id,
+      page_id: user_query.accounts.first.id
     )
 
     return u
@@ -31,8 +31,8 @@ class FbUser < ApplicationRecord
     #   session = FacebookAds::Session.new(access_token: user.token)
     #   user_query = FacebookAds::User.get(user.uid, session)
 
-    #   user.adaccount = user_query.adaccounts.first.id
-    #   user.pageID = user_query.accounts.first.id
+    #   user.ad_account_id = user_query.adaccounts.first.id
+    #   user.page_id = user_query.accounts.first.id
 
     #   # user.url =
     #   user.active = 1
@@ -50,7 +50,7 @@ class FbUser < ApplicationRecord
     # The app_secret and api version are already set in the initializer
     # We set up the session per user, that's the reason for this method.
     # session = FacebookAds::Session.new(access_token: self.token)
-    @ad_acct_query = FacebookAds::AdAccount.get(self.adaccount, 'name', fb_session)
+    @ad_acct_query = FacebookAds::AdAccount.get(self.ad_account_id, 'name', fb_session)
   end
   # Getter
   attr_reader :ad_acct_query

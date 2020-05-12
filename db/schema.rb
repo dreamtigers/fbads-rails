@@ -43,8 +43,8 @@ ActiveRecord::Schema.define(version: 2020_05_11_185725) do
     t.string "name"
     t.string "email"
     t.string "token"
-    t.string "adaccount"
-    t.string "pageID"
+    t.string "ad_account_id"
+    t.string "page_id"
     t.string "url"
     t.integer "active"
     t.datetime "created_at", precision: 6, null: false

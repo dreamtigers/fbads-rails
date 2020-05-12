@@ -32,7 +32,7 @@ class HomeController < ApplicationController
   end
 
   def fb_user_params
-    params.require(:fb_user).permit(:adaccount, :pageID, :url)
+    params.require(:fb_user).permit(:ad_account_id, :page_id, :url)
   end
 
 end

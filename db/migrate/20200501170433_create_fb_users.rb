@@ -6,8 +6,8 @@ class CreateFbUsers < ActiveRecord::Migration[6.0]
       t.string :name
       t.string :email
       t.string :token
-      t.string :adaccount
-      t.string :pageID
+      t.string :ad_account_id
+      t.string :page_id
       t.string :url
       t.integer :active
 
