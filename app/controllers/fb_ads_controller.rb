@@ -1,6 +1,6 @@
 class FbAdsController < ApplicationController
   before_action :require_login
-  before_action :set_fb_ad, only: [:show, :edit, :update, :destroy]
+  before_action :set_fb_ad, only: [:run]
   before_action :set_ad_acct_query, only: [:run]
 
   # GET /ads

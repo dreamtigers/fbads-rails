@@ -33,6 +33,7 @@
         <td><%= fb_ad.ad_set_id %></td>
         <td><%= fb_ad.interests %></td>
         <td><%= fb_ad.gender %></td>
+        <td><%= fb_ad.creative_id %></td>
         <td><%= fb_ad.headline %></td>
         <td><%= fb_ad.ptext %></td>
         <td><%= fb_ad.video_url %></td>
@@ -41,7 +42,7 @@
         <td><%= fb_ad.result %></td>
         <td><%= fb_ad.ad_id %></td>
         <td><%= fb_ad.start_time %></td>
-        <%# <td><%= link_to 'Run', fb_ad %1></td> %>
+        <td><%= link_to 'Run', run_fb_ad_url(fb_ad) %></td>
         <%# <td><%= link_to 'Show', fb_ad %1></td> %>
         <%# <td><%= link_to 'Edit', edit_fb_ad_path(fb_ad) %1></td> %>
         <%# <td><%= link_to 'Destroy', fb_ad, method: :delete, data: { confirm: 'Are you sure?' } %1></td> %>

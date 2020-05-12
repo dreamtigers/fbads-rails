@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
   resources :fb_ads, path: 'ads', only: [:index, :new, :create]
+  get '/ads/:id/run', to: 'fb_ads#run', as: :run_fb_ad
+
   resources :settings, only: [:edit, :update], controller: 'home'
 
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
