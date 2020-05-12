@@ -125,7 +125,11 @@ class FbAdsController < ApplicationController
         }
       }
     }
-    created_ad_creative = @ad_acct_query.adcreatives.create(ad_creative)
+    begin
+      created_ad_creative = @ad_acct_query.adcreatives.create(ad_creative)
+    rescue FacebookAds::ClientError => e
+      render :new, alert: e.error_user_title
+    end
 
     campaign = {
       name: @fb_ad.campaign_name,
@@ -167,7 +171,7 @@ class FbAdsController < ApplicationController
         { event_type: 'CLICK_THROUGH', window_days: 7 },
         { event_type: 'VIEW_THROUGH', window_days: 1 }
       ],
-      promoted_objects: {
+      promoted_object: {
         # TODO substitute with user's Pixel ID
         pixel_id: hardcoded[:pixelID],
         custom_event_type: 'PURCHASE'
