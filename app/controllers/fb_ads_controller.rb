@@ -155,7 +155,7 @@ class FbAdsController < ApplicationController
     adset = {
       status: hardcoded[:status],
       start_time: @fb_ad.start_time,
-      campaign_id: @fb_ad.campaign_id,
+      campaign_id: created_campaign.id,
       targeting: targeting,
       optimization_goal: 'OFFSITE_CONVERSIONS',
       billing_event: 'IMPRESSIONS',
@@ -176,6 +176,8 @@ class FbAdsController < ApplicationController
 
     # TODO: Set the adset name and the interests
     adset[:name] = @fb_ad.interests
+
+    pp adset
 
     created_ad_set = @ad_acct_query.ad_sets.create(adset)
 

@@ -6,38 +6,22 @@ class FbUser < ApplicationRecord
   # A class method uses self to distinguish from instance methods.
   # It can only be called on the class, not an instance.
   def self.from_omniauth(auth)
-    u = find_or_initialize_by(uid: auth.uid)
+    where(uid: auth.uid).first_or_initialize.tap do |user|
+      user.uid = auth.uid
+      user.name = auth.info.name
+      user.email = auth.info.email
+      user.token = auth.credentials.token
 
-    session = FacebookAds::Session.new(access_token: auth.credentials.token)
-    user_query = FacebookAds::User.get(auth.uid, session)
+      session = FacebookAds::Session.new(access_token: user.token)
+      user_query = FacebookAds::User.get(user.uid, session)
 
-    u.update(
-      uid: auth.uid,
-      name: auth.info.name,
-      email: auth.info.email,
-      token: auth.credentials.token,
-      ad_account_id: user_query.adaccounts.first.id,
-      page_id: user_query.accounts.first.id
-    )
+      user.ad_account_id = user_query.adaccounts.first.id
+      user.page_id = user_query.accounts.first.id
 
-    return u
-
-    # where(uid: auth.uid).first_or_initialize.tap do |user|
-    #   user.uid = auth.uid
-    #   user.name = auth.info.name
-    #   user.email = auth.info.email
-    #   user.token = auth.credentials.token
-
-    #   session = FacebookAds::Session.new(access_token: user.token)
-    #   user_query = FacebookAds::User.get(user.uid, session)
-
-    #   user.ad_account_id = user_query.adaccounts.first.id
-    #   user.page_id = user_query.accounts.first.id
-
-    #   # user.url =
-    #   user.active = 1
-    #   user.save!
-    # end
+      # user.url =
+      user.active = 1
+      user.save!
+    end
   end
 
 
