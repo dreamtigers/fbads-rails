@@ -8,7 +8,7 @@ class FbUser < ApplicationRecord
   def self.from_omniauth(auth)
     u = find_or_initialize_by(uid: auth.uid)
 
-    session = FacebookAds::Session.new(access_token: auth.token)
+    session = FacebookAds::Session.new(access_token: auth.credentials.token)
     user_query = FacebookAds::User.get(auth.uid, session)
 
     u.update(
@@ -19,6 +19,8 @@ class FbUser < ApplicationRecord
       adaccount: user_query.adaccounts.first.id,
       pageID: user_query.accounts.first.id
     )
+
+    return u
 
     # where(uid: auth.uid).first_or_initialize.tap do |user|
     #   user.uid = auth.uid

@@ -41,22 +41,22 @@ class FbAdsController < ApplicationController
 
   # POST /ads
   def create
-    # Create an empty FbAd a fill it with the form info
-    @fb_ad = FbAd.new(fb_ad_params)
-
     # Create and send the video to FB
     video = {
       name: "Video File #{Random.rand(300)}",
-      file_url: params[:video_url]
+      file_url: fb_ad_params[:video_url]
     }
     created_video = current_user.ad_acct_query.advideos.create(video)
+
+    # Create an empty FbAd a fill it with the form info
+    @fb_ad = FbAd.new(fb_ad_params)
 
     # Add to the new FbUser the params that were not set in the form
     @fb_ad.uid = current_user.uid
     @fb_ad.video_id = created_video.id
 
     # TODO Allow the user to select the Pixel ID they want in the 'new' page
-    @fb_ad.pixel_id = current_user.pixelID
+    @fb_ad.pixel_id = 2754542204668852
 
     # Time when to publish this ad
     # 60 seconds * 60 minutes * 24 hours = 86400 seconds/day
@@ -65,7 +65,7 @@ class FbAdsController < ApplicationController
 
     respond_to do |format|
       if @fb_ad.save
-        format.html { redirect_to @fb_ad, notice: 'Fb ad was successfully created.' }
+        format.html { redirect_to fb_ads_url, notice: 'Fb ad was successfully created.' }
       else
         format.html { render :new }
       end
@@ -230,7 +230,7 @@ class FbAdsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def fb_ad_params
-      params.require(:fb_ad).permit(:campaign_name, :interests, :gender, :headline, :ptext, :video_url, :thumbnail_url, :video_id, :pixel_id, :countries)
+      params.require(:fb_ad).permit(:campaign_name, :interests, :gender, :headline, :ptext, :video_url, :thumbnail_url, :video_id, :pixel_id, :countries, :video_url)
     end
 
     # Handy function
