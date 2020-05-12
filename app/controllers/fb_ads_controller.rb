@@ -232,7 +232,7 @@ class FbAdsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def fb_ad_params
-      params.require(:fb_ad).permit(:campaign_name, :interests, :gender, :headline, :ptext, :video_url, :thumbnail_url, :video_id, :pixel_id, :countries, :video_url)
+      params.require(:fb_ad).permit(:campaign_name, :interests, :gender, :headline, :ptext, :video_url, :thumbnail_url, :pixel_id, :video_url, :countries => [])
     end
 
     # Handy function
