@@ -15,24 +15,6 @@ class FbAdsController < ApplicationController
   # GET /ads/new
   def new
     @fb_ad = FbAd.new
-    # Should probably use something like: https://rubygems.org/gems/iso_3166
-    @countries = [
-      ["Australia",     "AU"], ["Austria",     "AT"], ["Belgium",        "BE"],
-      ["Brazil",        "BR"], ["Canada",      "CA"], ["Croatia",        "HR"],
-      ["Denmark",       "DK"], ["Estonia",     "EE"], ["Finland",        "FI"],
-      ["France",        "FR"], ["Germany",     "DE"], ["Gibraltar",      "GI"],
-      ["Great Britian", "GB"], ["Greece",      "GR"], ["Hong Kong",      "HK"],
-      ["Hungary",       "HU"], ["Ireland",     "IE"], ["Israel",         "IL"],
-      ["Italy",         "IT"], ["Japan",       "JP"], ["Latvia",         "LV"],
-      ["Lithuania",     "LT"], ["Luxembourg",  "LU"], ["Malaysia",       "MY"],
-      ["Malta",         "MT"], ["Mexico",      "MX"], ["Netherlands",    "NL"],
-      ["New Zealand",   "NZ"], ["Norway",      "NO"], ["Poland",         "PL"],
-      ["Portugal",      "PT"], ["Russia",      "RU"], ["Saudi Arabia",   "SA"],
-      ["Singapore",     "SG"], ["Spain",       "ES"], ["South Korea",    "KR"],
-      ["Sweden",        "SE"], ["Switzerland", "CH"], ["Thailand",       "TH"],
-      ["Turkey",        "TR"], ["Ukraine",     "UA"], ["United Kingdom", "GB"],
-      ["United States", "US"], ["Vietnam",     "VN"]
-    ]
   end
 
   # # GET /ads/1/edit
@@ -128,7 +110,7 @@ class FbAdsController < ApplicationController
     begin
       created_ad_creative = @ad_acct_query.adcreatives.create(ad_creative)
     rescue FacebookAds::ClientError => e
-      render :new, alert: e.error_user_title
+      redirect_to fb_ads_path, alert: e.error_user_title
     end
 
     campaign = {
@@ -209,9 +191,9 @@ class FbAdsController < ApplicationController
           start_time: Time::now.to_i,
           result: 1,
         })
-        format.html { redirect_to @fb_ad, notice: 'Fb ad was successfully created.' }
+        format.html { redirect_to fb_ads_path, notice: 'Fb ad was successfully created.' }
       rescue FacebookAds::ClientError => e
-        format.html { render :new, alert: e.error_user_title }
+        format.html { redirect_to fb_ads_path, alert: e.error_user_title }
       end
     end
 

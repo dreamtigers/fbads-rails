@@ -53,7 +53,7 @@
 
   <div class="field">
     <%= form.label :countries %>
-    <%= select :fb_ad, :countries, options_for_select(@countries), {}, { multiple: true, size: 10 } %>
+    <%= select :fb_ad, :countries, options_for_select(countries_list), {}, { multiple: true, size: 10 } %>
   </div>
 
   <div class="actions">
