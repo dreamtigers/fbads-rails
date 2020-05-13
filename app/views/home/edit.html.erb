@@ -1,5 +1,5 @@
 
-<h1>Editing Ad</h1>
+<h1>Editing User</h1>
 
 <%= form_with(model: @fb_user, url: setting_path, method: 'patch', local: true) do |form| %>
   <% if @fb_user.errors.any? %>
@@ -18,6 +18,11 @@
     <%= form.label :ad_account_id %>
     <%= select_tag :ad_account_id, options_for_select(@ad_accounts) %>
   </div>
+
+  <%# <div class="field"> %>
+  <%#   <%= form.label :pixel_id %1> %>
+  <%#   <%= select_tag :pixel_id, options_for_select(@pixels) %1> %>
+  <%# </div> %>
 
   <div class="field">
     <%= form.label :page_id %>

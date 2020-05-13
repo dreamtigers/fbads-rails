@@ -30,11 +30,11 @@ class FbUser < ApplicationRecord
   # ###################
 
   # Setter
-  def ad_acct_query=
+  def ad_acct_query=(ad_account_id = self.ad_account_id)
     # The app_secret and api version are already set in the initializer
     # We set up the session per user, that's the reason for this method.
     # session = FacebookAds::Session.new(access_token: self.token)
-    @ad_acct_query = FacebookAds::AdAccount.get(self.ad_account_id, 'name', fb_session)
+    @ad_acct_query = FacebookAds::AdAccount.get(ad_account_id, 'name', fb_session)
   end
   # Getter
   attr_reader :ad_acct_query

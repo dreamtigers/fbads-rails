@@ -37,9 +37,6 @@ class FbAdsController < ApplicationController
     @fb_ad.uid = current_user.uid
     @fb_ad.video_id = created_video.id
 
-    # TODO Allow the user to select the Pixel ID they want in the 'new' page
-    @fb_ad.pixel_id = 2754542204668852
-
     # Time when to publish this ad
     # 60 seconds * 60 minutes * 24 hours = 86400 seconds/day
     tomorrow = Time::now + 86400
@@ -81,7 +78,6 @@ class FbAdsController < ApplicationController
     hardcoded = {
       adset_name: 'Test',
       objective: 'CONVERSIONS',
-      pixelID: 2754542204668852,
       status: 'ACTIVE',
       call_to_action: "SHOP_NOW",
       age_min: 21,
@@ -154,8 +150,7 @@ class FbAdsController < ApplicationController
         { event_type: 'VIEW_THROUGH', window_days: 1 }
       ],
       promoted_object: {
-        # TODO substitute with user's Pixel ID
-        pixel_id: hardcoded[:pixelID],
+        pixel_id: @fb_ad.pixel_id,
         custom_event_type: 'PURCHASE'
       }
     }
@@ -175,8 +170,7 @@ class FbAdsController < ApplicationController
       tracking_specs: [ {
           # We're using the old hash notation because symbols can't use `.`.
           "action.type" => 'offsite_conversion',
-          # TODO substitute with user's Pixel ID
-          :fb_pixel => [hardcoded[:pixelID]]
+          :fb_pixel => [@fb_ad.pixel_id]
       } ]
     }
 

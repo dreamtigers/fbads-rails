@@ -48,7 +48,7 @@
 
   <div class="field">
     <%= form.label :pixel_id %>
-    <%# <%= select_tag(:pixel_id, options_for_select(@pixels)) %1> %>
+    <%= select(:fb_ad, :pixel_id, options_for_select(current_user.ad_acct_query.adspixels(fields: 'name,id').map {|p| [p.name, p.id]})) %>
   </div>
 
   <div class="field">
