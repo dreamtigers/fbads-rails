@@ -26,6 +26,12 @@ class FbAdsController < ApplicationController
     # Create an empty FbAd a fill it with the form info
     @fb_ad = FbAd.new(fb_ad_params)
 
+    # Time when to publish this ad
+    # 60 seconds * 60 minutes * 24 hours = 86400 seconds/day
+    @fb_ad.uid = current_user.uid
+    tomorrow = Time::now + 86400
+    @fb_ad.start_time = tomorrow
+
     # Create and send the video to FB
     video = {
       name: "Video File #{Random.rand(300)}",
@@ -37,16 +43,11 @@ class FbAdsController < ApplicationController
     rescue FacebookAds::ClientError => e
       flash.now[:alert] = e.error_user_title
       render :new
+      return
     end
 
     # Add to the new FbUser the params that were not set in the form
-    @fb_ad.uid = current_user.uid
     @fb_ad.video_id = created_video.id
-
-    # Time when to publish this ad
-    # 60 seconds * 60 minutes * 24 hours = 86400 seconds/day
-    tomorrow = Time::now + 86400
-    @fb_ad.start_time = tomorrow
 
     respond_to do |format|
       if @fb_ad.save
@@ -220,7 +221,7 @@ class FbAdsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def fb_ad_params
-      params[:fb_ad][:countries] = params[:fb_ad][:countries].reject {|c| c.blank?}
+      params[:fb_ad][:countries] = params[:fb_ad][:countries].reject {|c| c.empty?}
       params.require(:fb_ad).permit(:campaign_name, :interests, :gender, :headline, :ptext, :video_url, :thumbnail_url, :pixel_id, :video_url, :countries => [])
     end
 
