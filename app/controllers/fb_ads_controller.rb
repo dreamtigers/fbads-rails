@@ -23,20 +23,21 @@ class FbAdsController < ApplicationController
 
   # POST /ads
   def create
+    # Create an empty FbAd a fill it with the form info
+    @fb_ad = FbAd.new(fb_ad_params)
+
     # Create and send the video to FB
     video = {
       name: "Video File #{Random.rand(300)}",
       file_url: fb_ad_params[:video_url]
     }
+
     begin
       created_video = current_user.ad_acct_query.advideos.create(video)
     rescue FacebookAds::ClientError => e
       flash.now[:alert] = e.error_user_title
       render :new
     end
-
-    # Create an empty FbAd a fill it with the form info
-    @fb_ad = FbAd.new(fb_ad_params)
 
     # Add to the new FbUser the params that were not set in the form
     @fb_ad.uid = current_user.uid
@@ -163,9 +164,11 @@ class FbAdsController < ApplicationController
     # TODO: Set the adset name and the interests
     adset[:name] = @fb_ad.interests
 
-    pp adset
-
-    created_ad_set = @ad_acct_query.ad_sets.create(adset)
+    begin
+      created_ad_set = @ad_acct_query.ad_sets.create(adset)
+    rescue FacebookAds::ClientError => e
+      redirect_to fb_ads_path, alert: e.error_user_title
+    end
 
     ad = {
       name: hardcoded[:adset_name],
@@ -217,6 +220,7 @@ class FbAdsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def fb_ad_params
+      params[:fb_ad][:countries] = params[:fb_ad][:countries].reject {|c| c.blank?}
       params.require(:fb_ad).permit(:campaign_name, :interests, :gender, :headline, :ptext, :video_url, :thumbnail_url, :pixel_id, :video_url, :countries => [])
     end
 
