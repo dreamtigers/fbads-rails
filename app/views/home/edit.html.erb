@@ -16,7 +16,7 @@
 
   <div class="field">
     <%= form.label :ad_account_id %>
-    <%= select_tag :ad_account_id, options_for_select(@ad_accounts) %>
+    <%= select :fb_user, :ad_account_id, options_for_select(@ad_accounts) %>
   </div>
 
   <%# <div class="field"> %>
@@ -26,7 +26,7 @@
 
   <div class="field">
     <%= form.label :page_id %>
-    <%= select_tag :page_id, options_for_select(@pages) %>
+    <%= select :fb_user, :page_id, options_for_select(@pages) %>
   </div>
 
   <div class="field">

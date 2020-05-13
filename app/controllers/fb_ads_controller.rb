@@ -28,7 +28,12 @@ class FbAdsController < ApplicationController
       name: "Video File #{Random.rand(300)}",
       file_url: fb_ad_params[:video_url]
     }
-    created_video = current_user.ad_acct_query.advideos.create(video)
+    begin
+      created_video = current_user.ad_acct_query.advideos.create(video)
+    rescue FacebookAds::ClientError => e
+      flash.now[:alert] = e.error_user_title
+      render :new
+    end
 
     # Create an empty FbAd a fill it with the form info
     @fb_ad = FbAd.new(fb_ad_params)
