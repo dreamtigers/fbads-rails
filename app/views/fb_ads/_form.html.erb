@@ -17,8 +17,13 @@
   </div>
 
   <div class="field">
+    <%= label_tag :interests_text %>
+    <%= text_field_tag :interests_text, nil, placeholder: "Search for interests" %>
+  </div>
+
+  <div class="field">
     <%= form.label :interests %>
-    <%= form.text_field :interests, placeholder: "Enter the Interests" %>
+    <%= select :fb_ad, :interests, options_for_select([]), {}, { multiple: true, size: 10 } %>
   </div>
 
   <div class="field">

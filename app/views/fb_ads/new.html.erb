@@ -1,4 +1,6 @@
 <h1>New Fb Ad</h1>
+<%= javascript_tag "window._token = '#{form_authenticity_token}'" %>
+<%= javascript_pack_tag 'dynamic_interests' %>
 
 <%= render 'form', fb_ad: @fb_ad %>
 

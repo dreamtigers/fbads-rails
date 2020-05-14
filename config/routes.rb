@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
   resources :fb_ads, path: 'ads', only: [:index, :new, :create]
   get '/ads/:id/run', to: 'fb_ads#run', as: :run_fb_ad
+  post '/update_interests', to: 'fb_ads#update_interests'
 
   resources :settings, only: [:edit, :update], controller: 'home'
 

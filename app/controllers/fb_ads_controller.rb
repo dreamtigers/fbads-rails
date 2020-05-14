@@ -1,7 +1,7 @@
 class FbAdsController < ApplicationController
   before_action :require_login
   before_action :set_fb_ad, only: [:run]
-  before_action :set_ad_acct_query, only: [:run]
+  before_action :set_ad_acct_query, only: [:run, :update_interests]
 
   # GET /ads
   def index
@@ -20,6 +20,16 @@ class FbAdsController < ApplicationController
   # # GET /ads/1/edit
   # def edit
   # end
+
+  def update_interests
+    @interests = @ad_acct_query.targetingsearch({
+      q: params[:suggestion],
+      type: 'adinterest',
+      fields: 'name,id,audience_size'
+    }).first(10)
+
+    render json: @interests
+  end
 
   # POST /ads
   def create
@@ -222,7 +232,10 @@ class FbAdsController < ApplicationController
     # Only allow a list of trusted parameters through.
     def fb_ad_params
       params[:fb_ad][:countries] = params[:fb_ad][:countries].reject {|c| c.empty?}
-      params.require(:fb_ad).permit(:campaign_name, :interests, :gender, :headline, :ptext, :video_url, :thumbnail_url, :pixel_id, :video_url, :countries => [])
+      params[:fb_ad][:interests] = params[:fb_ad][:interests].reject {|c| c.empty?}
+      params.require(:fb_ad).permit(:campaign_name, :gender, :headline, :ptext,
+                                    :video_url, :thumbnail_url, :pixel_id,
+                                    :interests => [], :countries => [])
     end
 
     # Handy function
