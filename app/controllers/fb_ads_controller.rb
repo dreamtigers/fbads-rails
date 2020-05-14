@@ -5,7 +5,7 @@ class FbAdsController < ApplicationController
 
   # GET /ads
   def index
-    @fb_ads = FbAd.all
+    @fb_ads = FbAd.where(uid: current_user.uid)
   end
 
   # # GET /ads/1

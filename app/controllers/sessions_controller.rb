@@ -15,11 +15,12 @@ class SessionsController < ApplicationController
   def fb_user_params
     params.require(:fb_user).permit(
       :uid,
-      # These are the same:
+      # This:
       # info: [
       #   :name,
       #   :email
       # ],
+      # And this, are the same:
       info: %i[name email],
       # credentials: [
       #   :token
