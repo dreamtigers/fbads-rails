@@ -198,7 +198,7 @@ class FbAdsController < ApplicationController
       }
 
       begin
-        created_ad_set = @ad_acct_query.ad_sets.create(adset)
+        created_adset = @ad_acct_query.adsets.create(adset)
       rescue FacebookAds::ClientError => e
         my_errors.push(e)
         next
@@ -206,7 +206,7 @@ class FbAdsController < ApplicationController
 
       ad = {
         name: hardcoded[:adset_name],
-        adset_id: created_ad_set.id,
+        adset_id: created_adset.id,
         status: hardcoded[:status],
         creative: created_ad_creative.id,
         tracking_specs: [ {
@@ -218,12 +218,13 @@ class FbAdsController < ApplicationController
 
       begin
         created_ad = @ad_acct_query.ads.create(ad)
+        pp created_ad
 
         my_ads.push(created_ad.id)
-        my_adsets.push(created_ad_set.id)
+        my_adsets.push(created_adset.id)
       rescue FacebookAds::ClientError => e
         my_errors.push(e)
-        created_ad_set.destroy
+        created_adset.destroy
       end
     end
 
