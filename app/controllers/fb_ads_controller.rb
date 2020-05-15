@@ -50,14 +50,14 @@ class FbAdsController < ApplicationController
 
     begin
       created_video = current_user.ad_acct_query.advideos.create(video)
+
+      # Add to the new FbUser the params that were not set in the form
+      @fb_ad.video_id = created_video.id
     rescue FacebookAds::ClientError => e
       flash.now[:alert] = e.error_user_title
       render :new
       return
     end
-
-    # Add to the new FbUser the params that were not set in the form
-    @fb_ad.video_id = created_video.id
 
     respond_to do |format|
       if @fb_ad.save
