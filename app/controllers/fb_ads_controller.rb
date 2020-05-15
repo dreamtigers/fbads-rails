@@ -123,7 +123,11 @@ class FbAdsController < ApplicationController
     begin
       created_ad_creative = @ad_acct_query.adcreatives.create(ad_creative)
     rescue FacebookAds::ClientError => e
+      @fb_ad.update({
+        result_status: e.error_user_title
+      })
       redirect_to fb_ads_path, alert: e.error_user_title
+      return
     end
 
     campaign = {
@@ -133,7 +137,21 @@ class FbAdsController < ApplicationController
       status: 'PAUSED',
     }
 
-    created_campaign = @ad_acct_query.campaigns.create(campaign)
+    begin
+      created_campaign = @ad_acct_query.campaigns.create(campaign)
+    rescue FacebookAds::ClientError => e
+      created_ad_creative.destroy
+      @fb_ad.update({
+        result_status: e.error_user_title
+      })
+      redirect_to fb_ads_path, alert: e.error_user_title
+      return
+    end
+
+    my_adsets = []
+    my_ads = []
+
+    my_errors = []
 
     targeting = {
       age_max: hardcoded[:age_max],
@@ -172,55 +190,59 @@ class FbAdsController < ApplicationController
       }
     }
 
-    # TODO: Set the adset name and the interests
-    adset[:name] = @fb_ad.interests
+    interests = (JSON.parse @fb_ad.interests).each do |int|
+      adset_name = FacebookAds::AdsInterest.get(int, 'name', current_user.fb_session)
+      adset[:name] = adset_name
+      adset[:targeting][:flexible_spec] = {
+        interests: { id: int, name: adset_name }
+      }
 
-    begin
-      created_ad_set = @ad_acct_query.ad_sets.create(adset)
-    rescue FacebookAds::ClientError => e
-      redirect_to fb_ads_path, alert: e.error_user_title
-    end
+      begin
+        created_ad_set = @ad_acct_query.ad_sets.create(adset)
+      rescue FacebookAds::ClientError => e
+        my_errors.push(e)
+        next
+      end
 
-    ad = {
-      name: hardcoded[:adset_name],
-      adset_id: created_ad_set.id,
-      status: hardcoded[:status],
-      creative: ad_creative,
-      tracking_specs: [ {
-          # We're using the old hash notation because symbols can't use `.`.
-          "action.type" => 'offsite_conversion',
-          :fb_pixel => [@fb_ad.pixel_id]
-      } ]
-    }
+      ad = {
+        name: hardcoded[:adset_name],
+        adset_id: created_ad_set.id,
+        status: hardcoded[:status],
+        creative: created_ad_creative.id,
+        tracking_specs: [ {
+            # We're using the old hash notation because symbols can't use `.`.
+            "action.type" => 'offsite_conversion',
+            :fb_pixel => [@fb_ad.pixel_id]
+        } ]
+      }
 
-    respond_to do |format|
       begin
         created_ad = @ad_acct_query.ads.create(ad)
-        @fb_ad.update({
-          creative_id: created_ad_creative.id,
-          campaign_id: created_campaign.id,
-          ad_set_id: created_ad_set.id,
-          ad_id: created_ad.id,
-          start_time: Time::now.to_i,
-          result: 1,
-        })
-        format.html { redirect_to fb_ads_path, notice: 'Fb ad was successfully created.' }
+
+        my_ads.push(created_ad.id)
+        my_adsets.push(created_ad_set.id)
       rescue FacebookAds::ClientError => e
-        format.html { redirect_to fb_ads_path, alert: e.error_user_title }
+        my_errors.push(e)
+        created_ad_set.destroy
       end
     end
 
-    # begin
-    #   created_ad = @ad_acct_query.ads.create(ad)
-    # rescue FacebookAds::ClientError => e
-    #   if e.error_user_title.include? 'Payment Method Is Missing'
-    #     alert: e.error_user_title
-    #   elsif e.error_user_title.include? 'Video'
-    #     alert: "please wait a while while facebook creates the video"
-    #   end
-    # end
+    @fb_ad.update({
+      creative_id: created_ad_creative.id,
+      campaign_id: created_campaign.id,
+      ad_set_id: my_adsets,
+      ad_id: my_ads,
+      start_time: Time::now.to_i,
+      result: 1,
+    })
 
-    # redirect_to root_path, notice: "Ad Campaign: #{!created_campaign.nil?}\nAd Set: #{!created_ad_set.nil?}\nAd: #{!created_ad.nil?}"
+    respond_to do |format|
+      if my_errors.empty?
+        format.html { redirect_to fb_ads_path, notice: 'Fb ad was successfully created.' }
+      else
+        format.html { redirect_to fb_ads_path, alert: e.error_user_title }
+      end
+    end
   end
 
   private
