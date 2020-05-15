@@ -211,7 +211,7 @@ class FbAdsController < ApplicationController
         name: hardcoded[:adset_name],
         adset_id: created_adset.id,
         status: hardcoded[:status],
-        creative: created_ad_creative.id,
+        creative_id: created_ad_creative.id,
         tracking_specs: [ {
             # We're using the old hash notation because symbols can't use `.`.
             "action.type" => 'offsite_conversion',
