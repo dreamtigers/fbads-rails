@@ -191,14 +191,17 @@ class FbAdsController < ApplicationController
     }
 
     interests = (JSON.parse @fb_ad.interests).each do |int|
-      adset_name = FacebookAds::AdsInterest.get(int, 'name', current_user.fb_session)
-      adset[:name] = adset_name
-      adset[:targeting][:flexible_spec] = {
-        interests: { id: int, name: adset_name }
-      }
+      retrieved_adset = FacebookAds::AdsInterest.get(int, 'name', current_user.fb_session)
+      adset[:name] = retrieved_adset.name
+      adset[:targeting][:flexible_spec] = [ {
+        interests: [{ id: int, name: retrieved_adset.name }]
+      } ]
 
       begin
         created_adset = @ad_acct_query.adsets.create(adset)
+        pp ""
+        pp created_adset
+        pp ""
       rescue FacebookAds::ClientError => e
         my_errors.push(e)
         next
@@ -218,7 +221,9 @@ class FbAdsController < ApplicationController
 
       begin
         created_ad = @ad_acct_query.ads.create(ad)
+        pp ""
         pp created_ad
+        pp ""
 
         my_ads.push(created_ad.id)
         my_adsets.push(created_adset.id)
@@ -227,6 +232,10 @@ class FbAdsController < ApplicationController
         created_adset.destroy
       end
     end
+
+    pp ""
+    pp my_errors
+    pp ""
 
     @fb_ad.update({
       creative_id: created_ad_creative.id,
