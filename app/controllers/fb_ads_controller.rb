@@ -208,7 +208,7 @@ class FbAdsController < ApplicationController
       end
 
       ad = {
-        name: hardcoded[:adset_name],
+        name: retrieved_adset.name,
         adset_id: created_adset.id,
         status: hardcoded[:status],
         creative: {
