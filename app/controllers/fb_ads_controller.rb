@@ -203,7 +203,7 @@ class FbAdsController < ApplicationController
         pp created_adset
         pp ""
       rescue FacebookAds::ClientError => e
-        my_errors.push(e)
+        my_errors.push(e.error_user_title)
         next
       end
 
@@ -211,10 +211,12 @@ class FbAdsController < ApplicationController
         name: hardcoded[:adset_name],
         adset_id: created_adset.id,
         status: hardcoded[:status],
-        creative_id: created_ad_creative.id,
+        creative: {
+          creative_id: created_ad_creative.id
+        },
         tracking_specs: [ {
             # We're using the old hash notation because symbols can't use `.`.
-            "action.type" => 'offsite_conversion',
+            "action.type" => ['offsite_conversion'],
             :fb_pixel => [@fb_ad.pixel_id]
         } ]
       }
@@ -228,7 +230,7 @@ class FbAdsController < ApplicationController
         my_ads.push(created_ad.id)
         my_adsets.push(created_adset.id)
       rescue FacebookAds::ClientError => e
-        my_errors.push(e)
+        my_errors.push(e.error_user_title)
         created_adset.destroy
       end
     end
@@ -250,7 +252,7 @@ class FbAdsController < ApplicationController
       if my_errors.empty?
         format.html { redirect_to fb_ads_path, notice: 'Fb ad was successfully created.' }
       else
-        format.html { redirect_to fb_ads_path, alert: e.error_user_title }
+        format.html { redirect_to fb_ads_path, alert: my_errors }
       end
     end
   end
