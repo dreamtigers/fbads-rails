@@ -36,9 +36,11 @@ class FbAdsController < ApplicationController
     # Create an empty FbAd a fill it with the form info
     @fb_ad = FbAd.new(fb_ad_params)
 
-    # Time when to publish this ad
-    # 60 seconds * 60 minutes * 24 hours = 86400 seconds/day
     @fb_ad.uid = current_user.uid
+    # Time when to publish this ad.
+    # NOTE this is a tentative date, from the original code. When this ad is
+    # 'run' (see fb_ads#run) it will update the start_time.
+    # 60 seconds * 60 minutes * 24 hours = 86400 seconds/day
     tomorrow = Time::now + 86400
     @fb_ad.start_time = tomorrow
 
@@ -99,7 +101,7 @@ class FbAdsController < ApplicationController
       call_to_action: "SHOP_NOW",
       age_min: 21,
       age_max: 45,
-      daily_budget: 10 # dollars
+      budget: 10 # dollars
     }
 
     ad_creative = {
@@ -150,8 +152,9 @@ class FbAdsController < ApplicationController
 
     my_adsets = []
     my_ads = []
-
     my_errors = []
+
+    right_now = Time::now
 
     targeting = {
       age_max: hardcoded[:age_max],
@@ -171,13 +174,15 @@ class FbAdsController < ApplicationController
 
     adset = {
       status: hardcoded[:status],
-      start_time: @fb_ad.start_time,
+      start_time: right_now.iso8601,
       campaign_id: created_campaign.id,
       targeting: targeting,
       optimization_goal: 'OFFSITE_CONVERSIONS',
       billing_event: 'IMPRESSIONS',
       bid_strategy: 'LOWEST_COST_WITHOUT_CAP',
-      daily_budget: hardcoded[:daily_budget] * 100,
+      lifetime_budget: hardcoded[:budget] * 100,
+      # 60 seconds * 60 minutes * 24 hours * 7 days = 604800 seconds/week
+      end_time: (right_now + 604800).iso8601,
       pacing_type: ['standard'],
       destination_type: 'WEBSITE',
       attribution_spec: [
@@ -190,7 +195,7 @@ class FbAdsController < ApplicationController
       }
     }
 
-    interests = (JSON.parse @fb_ad.interests).each do |int|
+    (JSON.parse @fb_ad.interests).each do |int|
       retrieved_adset = FacebookAds::AdsInterest.get(int, 'name', current_user.fb_session)
       adset[:name] = retrieved_adset.name
       adset[:targeting][:flexible_spec] = [ {
@@ -223,9 +228,6 @@ class FbAdsController < ApplicationController
 
       begin
         created_ad = @ad_acct_query.ads.create(ad)
-        pp ""
-        pp created_ad
-        pp ""
 
         my_ads.push(created_ad.id)
         my_adsets.push(created_adset.id)
@@ -244,8 +246,9 @@ class FbAdsController < ApplicationController
       campaign_id: created_campaign.id,
       ad_set_id: my_adsets,
       ad_id: my_ads,
-      start_time: Time::now.to_i,
+      start_time: right_now,
       result: 1,
+      result_status: my_errors
     })
 
     respond_to do |format|
