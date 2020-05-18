@@ -45,7 +45,7 @@ function fetch_suggestions() {
                 if (selected_ids === null || !selected_ids.includes(d.id)) {
                     const option = document.createElement('option');
                     option.value = d.id;
-                    option.textContent = d.name + " | " + word(d.audience_size);
+                    option.textContent = d.name + " | " + word(d.audience_size) + " | " + d.id;
                     $('#fb_ad_interests').append(option);
                 }
             });
