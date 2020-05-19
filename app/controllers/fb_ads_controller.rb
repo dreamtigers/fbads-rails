@@ -154,7 +154,13 @@ class FbAdsController < ApplicationController
     my_ads = []
     my_errors = []
 
-    right_now = Time::now
+    # -07:00 == PST
+    now = Time::now.getlocal('-07:00')
+    if now.hour < 22
+      start_date = Time.new(now.year, now.month, now.day + 1, 01, 00, 00, '-07:00')
+    else
+      start_date = Time.new(now.year, now.month, now.day + 2, 01, 00, 00, '-07:00')
+    end
 
     targeting = {
       age_max: hardcoded[:age_max],
@@ -174,7 +180,7 @@ class FbAdsController < ApplicationController
 
     adset = {
       status: hardcoded[:status],
-      start_time: right_now.iso8601,
+      start_time: start_date.iso8601,
       campaign_id: created_campaign.id,
       targeting: targeting,
       optimization_goal: 'OFFSITE_CONVERSIONS',
@@ -182,7 +188,7 @@ class FbAdsController < ApplicationController
       bid_strategy: 'LOWEST_COST_WITHOUT_CAP',
       lifetime_budget: hardcoded[:budget] * 100,
       # 60 seconds * 60 minutes * 24 hours * 7 days = 604800 seconds/week
-      end_time: (right_now + 604800).iso8601,
+      end_time: (start_date + 604800).iso8601,
       pacing_type: ['standard'],
       destination_type: 'WEBSITE',
       attribution_spec: [
@@ -246,7 +252,7 @@ class FbAdsController < ApplicationController
       campaign_id: created_campaign.id,
       ad_set_id: my_adsets,
       ad_id: my_ads,
-      start_time: right_now,
+      start_time: start_date,
       result: 1,
       result_status: my_errors
     })
